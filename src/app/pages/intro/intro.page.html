@@ -1,0 +1,39 @@
+<ion-content>
+
+  <ion-slides pager="true" #slides>
+
+    <ion-slide>
+      <h1>Welcome to Diet Tracker</h1>
+      The best way to track your Diet
+      <ion-button expand="button" color="light" (click)="next()">
+        Configure your App
+      </ion-button>
+    </ion-slide>
+
+  <ion-slide>
+      <h1>Setup Your App</h1>
+    
+      <ion-list>
+        <ion-radio-group [(ngModel)]="user">
+          <ion-list-header>User</ion-list-header>
+
+          <ion-item>
+            <ion-label>Parent</ion-label>
+            <ion-radio slot="start" value="parent"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+              <ion-label>Kid</ion-label>
+              <ion-radio slot="start" value="kid"></ion-radio>
+            </ion-item>
+        </ion-radio-group>
+      </ion-list>
+
+
+      <ion-button expand="button" color="light" (click)="saveAndStart()">
+        Get Started
+      </ion-button>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

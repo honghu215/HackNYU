@@ -1,0 +1,22 @@
+ion-slide {
+    height: 100vh;
+    flex-direction: column;
+}
+
+ion-content {
+    --background: var(--ion-color-primary);
+    --ion-text-color: #fff;
+}
+
+ion-slides {
+    --bullet-background-active: #fff;
+}
+
+ion-list {
+    --ion-item-background: transparent;
+}
+
+ion-radio {
+    --color-checked: #fff;
+    --color: #fff;
+}
