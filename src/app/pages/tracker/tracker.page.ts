@@ -18,9 +18,9 @@ export class TrackerPage implements OnInit {
 
   cashFlow = 0;
 
-  @ViewChild('slidingList') slidingList: IonList
+  @ViewChild('slidingList') slidingList: IonList;
 
-  constructor(private modalCtrl: ModalController, private cashService: CashService, 
+  constructor(private modalCtrl: ModalController, private cashService: CashService,
     private plt: Platform, private storage: Storage, private popoverCtrl: PopoverController) { }
 
   ngOnInit() {
@@ -32,7 +32,7 @@ export class TrackerPage implements OnInit {
   }
 
   async addCashflow() {
-    let modal = await this.modalCtrl.create({
+    const modal = await this.modalCtrl.create({
       component: CashFlowModalPage,
       cssClass: 'modalCss'
     });
@@ -42,7 +42,7 @@ export class TrackerPage implements OnInit {
       if (res && res.data) {
         this.loadTransactions();
       }
-    })
+    });
   }
 
   async loadTransactions() {
@@ -69,7 +69,7 @@ export class TrackerPage implements OnInit {
   updateCashflow() {
     let result = 0;
     this.transactions.map(trans => {
-      result += trans.type == CashFlow.Expense ? -trans.value : trans.value;
+      result += trans.type === CashFlow.Expense ? -trans.value : trans.value;
     });
 
     this.cashFlow = result;
@@ -84,13 +84,13 @@ export class TrackerPage implements OnInit {
 
     popover.onDidDismiss().then(res => {
       if (res && res.data) {
-        let selectedName = res.data.selected.name;
+        const selectedName = res.data.selected.name;
 
-        if (selectedName == 'All') {
+        if (selectedName === 'All') {
           this.transactions = this.allTransactions;
         } else {
           this.transactions = this.allTransactions.filter(trans => {
-            return trans.category.name == selectedName;
+            return trans.category.name === selectedName;
           });
         }
       }

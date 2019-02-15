@@ -61,6 +61,7 @@ export class CashService {
         duration: 2000
       });
 
+      // tslint:disable-next-line:no-shadowed-variable
       toast.then(toast => toast.present());
     });
   }
@@ -72,6 +73,7 @@ export class CashService {
       duration: 2000
     });
 
+    // tslint:disable-next-line:no-shadowed-variable
     toast.then(toast => toast.present());
   }
 }
