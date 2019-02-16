@@ -1,9 +1,50 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>analysis</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Analysis
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar no-border-top color="white">
+    <ion-segment [(ngModel)]="target" color="primary">
+        <ion-segment-button value="daily">
+            Daily
+        </ion-segment-button>
+        <ion-segment-button value="weekly">
+            Weekly
+        </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
+  <div [ngSwitch]="target" style="display: block;">
+    <div *ngSwitchCase = "'weekly'" >
+      <canvas baseChart width="300" height="400"
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </div>
+  <div>
+    <div [ngSwitch]="target" style="display: block">
+      <div *ngSwitchCase = "'daily'" ></div>
+        <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [chartType]="barChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+    <button (click)="randomize()">Update</button>
+  </div>
 </ion-content>

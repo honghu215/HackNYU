@@ -25,6 +25,7 @@ import { Facebook } from '@ionic-native/facebook/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { ChartsModule } from 'ng2-charts';
 
 firebase.initializeApp(environment.firebase);
 
@@ -45,7 +46,8 @@ firebase.initializeApp(environment.firebase);
     SignupPageModule,
     HomePageModule,
     RewardPageModule,
-    HttpClientModule
+    HttpClientModule,
+    ChartsModule
   ],
   providers: [
     StatusBar,
