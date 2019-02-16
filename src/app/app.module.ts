@@ -24,6 +24,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 firebase.initializeApp(environment.firebase);
 
