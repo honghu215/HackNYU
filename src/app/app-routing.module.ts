@@ -17,12 +17,12 @@ const routes: Routes = [
   },
   { path: 'photo', loadChildren: './photo/photo.module#PhotoPageModule' },
   { path: 'reward', loadChildren: './reward/reward.module#RewardPageModule' },
-  { path: 'records', loadChildren: './records/records.module#RecordsPageModule' },
   { path: 'history', loadChildren: './history/history.module#HistoryPageModule' },
   { path: 'analysis', loadChildren: './analysis/analysis.module#AnalysisPageModule' },
   { path: 'item-modal', loadChildren: './photo/item-modal/item-modal.module#ItemModalPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' }
+  { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
+  { path: 'reward', loadChildren: './reward/reward.module#RewardPageModule' }
 ];
 
 @NgModule({

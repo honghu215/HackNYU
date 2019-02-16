@@ -1,5 +1,7 @@
 {
   "name": "KidsDietTracker",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

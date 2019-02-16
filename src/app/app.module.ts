@@ -1,3 +1,4 @@
+import { RewardPageModule } from './reward/reward.module';
 import { PhotoPageModule } from './photo/photo.module';
 import { environment } from './../environments/environment';
 import { NgModule } from '@angular/core';
@@ -42,6 +43,7 @@ firebase.initializeApp(environment.firebase);
     LoginPageModule,
     SignupPageModule,
     HomePageModule,
+    RewardPageModule,
     HttpClientModule
   ],
   providers: [
