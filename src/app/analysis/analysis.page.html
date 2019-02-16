@@ -22,7 +22,7 @@
 <ion-content padding>
   <div [ngSwitch]="target" style="display: block;">
     <div *ngSwitchCase = "'weekly'" >
-      <canvas baseChart width="300" height="400"
+      <canvas baseChart width="300" height="350"
                 [datasets]="lineChartData"
                 [labels]="lineChartLabels"
                 [options]="lineChartOptions"
@@ -35,8 +35,8 @@
   </div>
   <div>
     <div [ngSwitch]="target" style="display: block">
-      <div *ngSwitchCase = "'daily'" ></div>
-        <canvas baseChart
+      <div *ngSwitchCase = "'daily'" >
+        <canvas baseChart width="300" height="350"
               [datasets]="barChartData"
               [labels]="barChartLabels"
               [options]="barChartOptions"
@@ -44,7 +44,7 @@
               [chartType]="barChartType"
               (chartHover)="chartHovered($event)"
               (chartClick)="chartClicked($event)"></canvas>
+      </div>
     </div>
-    <button (click)="randomize()">Update</button>
   </div>
 </ion-content>
