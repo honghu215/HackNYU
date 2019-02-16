@@ -19,7 +19,8 @@ const routes: Routes = [
   { path: 'reward', loadChildren: './reward/reward.module#RewardPageModule' },
   { path: 'records', loadChildren: './records/records.module#RecordsPageModule' },
   { path: 'history', loadChildren: './history/history.module#HistoryPageModule' },
-  { path: 'analysis', loadChildren: './analysis/analysis.module#AnalysisPageModule' }
+  { path: 'analysis', loadChildren: './analysis/analysis.module#AnalysisPageModule' },
+  { path: 'reward', loadChildren: './reward/reward.module#RewardPageModule' }
 ];
 
 @NgModule({
