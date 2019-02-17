@@ -27,7 +27,8 @@ const routes: Routes = [
   // tslint:disable-next-line:max-line-length
   { path: 'history-detail', canActivate: [AuthGuard], loadChildren: './history/history-detail/history-detail.module#HistoryDetailPageModule' },
   // tslint:disable-next-line:max-line-length
-  { path: 'history-detail/:id', canActivate: [AuthGuard], loadChildren: './history/history-detail/history-detail.module#HistoryDetailPageModule' }
+  { path: 'history-detail/:id', canActivate: [AuthGuard], loadChildren: './history/history-detail/history-detail.module#HistoryDetailPageModule' },
+  { path: 'education', loadChildren: './education/education.module#EducationPageModule' },
 ];
 
 @NgModule({

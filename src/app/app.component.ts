@@ -30,7 +30,17 @@ export class AppComponent {
       title: 'History',
       url: '/history',
       icon: 'list'
-    }
+    },
+    {
+      title: 'Reward',
+      url: '/reward',
+      icon: 'ribbon'
+    },
+    {
+      title: 'Education',
+      url: '/education',
+      icon: 'school'
+    },
   ];
 
   isLoggedin = false;

@@ -1,0 +1,58 @@
+{
+    "questions": [
+        {
+            "flashCardFront": "<img src='assets/images/doughnut.png' />",
+            "flashCardBack": "Doughnut",
+            "flashCardFlipped": false,
+            "questionText": "Is that healthy food?",
+            "answers": [
+                {
+                    "answer": "No!",
+                    "correct": true,
+                    "selected": false
+                },
+                {
+                    "answer": "Yes!",
+                    "correct": false,
+                    "selected": false
+                }
+            ]
+        },
+        {
+            "flashCardFront": "<img src='assets/images/popcorn.png' />",
+            "flashCardBack": "Popcorn",
+            "flashCardFlipped": false,
+            "questionText": "Is that healthy food?",
+            "answers": [
+                {
+                    "answer": "Yes!",
+                    "correct": false,
+                    "selected": false
+                },
+                {
+                    "answer": "No!",
+                    "correct": true,
+                    "selected": false
+                }
+            ]
+        },
+        {
+            "flashCardFront": "<img src='assets/images/sashimi.png' />",
+            "flashCardBack": "Sashimi",
+            "flashCardFlipped": false,
+            "questionText": "is that healthy food?",
+            "answers": [
+                {
+                    "answer": "Yes!",
+                    "correct": true,
+                    "selected": false
+                },
+                {
+                    "answer": "No!",
+                    "correct": true,
+                    "selected": false
+                }
+            ]
+        }
+    ]
+}

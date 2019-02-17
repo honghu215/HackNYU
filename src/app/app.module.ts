@@ -26,11 +26,22 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { ChartsModule } from 'ng2-charts';
+import { HomePage } from './home/home.page';
+
+import { HttpModule } from '@angular/http';
+import { Data } from './providers/data';
+import { FlashCardComponent } from './components/flash-card/flash-card.component';
+import { EducationPage } from './education/education.page';
+import { EducationPageModule } from './education/education.module';
 
 firebase.initializeApp(environment.firebase);
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,
+    // EducationPage
+    // HomePage,
+    // FlashCardComponent
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -44,10 +55,13 @@ firebase.initializeApp(environment.firebase);
     AngularFireDatabaseModule,
     LoginPageModule,
     SignupPageModule,
-    HomePageModule,
+    // HomePageModule,
     RewardPageModule,
     HttpClientModule,
-    ChartsModule
+    ChartsModule,
+    HttpModule,
+    EducationPageModule
+    // FlashCardComponent
   ],
   providers: [
     StatusBar,
@@ -57,7 +71,7 @@ firebase.initializeApp(environment.firebase);
     Facebook,
     WebView,
     WheelSelector,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, Data
   ],
   bootstrap: [AppComponent]
 })
