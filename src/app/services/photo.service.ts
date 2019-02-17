@@ -89,7 +89,7 @@ export class PhotoService {
   async saveNutrients(queryString: string, url: string, fullNutrients) {
     const userId = this.auth.getUserId();
     const currDateTime = new Date();
-    const shortDate = `${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate() - 1}`;
+    const shortDate = `${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}`;
     console.log(currDateTime);
     const folderName = shortDate;
     this.dbNutrients = this.db.list(`${userId}/${folderName}`);
