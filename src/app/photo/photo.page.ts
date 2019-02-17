@@ -59,9 +59,9 @@ export class PhotoPage implements OnInit {
       this.basicNutrients = response.foods[0];
       this.fullNutrients.push(response.foods[0].full_nutrients.filter(nutrient => {
         // nutrientsID.indexOf(nutrient.attr_id);
-        return nutrientsID.indexOf(nutrient.attr_id) > 0;
+        return nutrientsID.indexOf(nutrient.attr_id) >= 0;
       }));
-      this.photoService.saveNutrients(this.downloadURL, this.fullNutrients);
+      this.photoService.saveNutrients(queryString, this.downloadURL, this.fullNutrients);
     }, error => {
       this.showAlert('Not Found', error.error.message);
       this.init();
@@ -69,8 +69,8 @@ export class PhotoPage implements OnInit {
   }
 
   async capture(sourceType: number) {
-    this.getNutrition('1 fried noodles');
-    return;
+    // this.getNutrition('1 cheese burger');
+    // return;
     this.init();
     let cameraOptions: CameraOptions;
     if (sourceType === 0) {

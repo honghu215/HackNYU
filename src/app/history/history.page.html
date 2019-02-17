@@ -1,9 +1,23 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>history</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Records</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of items">
+      <ion-item button [routerLink]="['/history-detail', item.id]">
+        <ion-label>
+          {{ item.name }}
+          
+        </ion-label>
+        <p>{{ item.addedAt | date:'short' }}</p>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
+
