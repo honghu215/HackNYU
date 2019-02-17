@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   {
@@ -15,16 +16,18 @@ const routes: Routes = [
     path: 'list',
     loadChildren: './list/list.module#ListPageModule'
   },
-  { path: 'photo', loadChildren: './photo/photo.module#PhotoPageModule' },
+  { path: 'photo', canActivate: [AuthGuard], loadChildren: './photo/photo.module#PhotoPageModule' },
   { path: 'reward', loadChildren: './reward/reward.module#RewardPageModule' },
-  { path: 'history', loadChildren: './history/history.module#HistoryPageModule' },
-  { path: 'analysis', loadChildren: './analysis/analysis.module#AnalysisPageModule' },
+  { path: 'history', canActivate: [AuthGuard], loadChildren: './history/history.module#HistoryPageModule' },
+  { path: 'analysis', canActivate: [AuthGuard], loadChildren: './analysis/analysis.module#AnalysisPageModule' },
   { path: 'item-modal', loadChildren: './photo/item-modal/item-modal.module#ItemModalPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
   { path: 'reward', loadChildren: './reward/reward.module#RewardPageModule' },
-  { path: 'history-detail', loadChildren: './history/history-detail/history-detail.module#HistoryDetailPageModule' },
-  { path: 'history-detail/:id', loadChildren: './history/history-detail/history-detail.module#HistoryDetailPageModule' }
+  // tslint:disable-next-line:max-line-length
+  { path: 'history-detail', canActivate: [AuthGuard], loadChildren: './history/history-detail/history-detail.module#HistoryDetailPageModule' },
+  // tslint:disable-next-line:max-line-length
+  { path: 'history-detail/:id', canActivate: [AuthGuard], loadChildren: './history/history-detail/history-detail.module#HistoryDetailPageModule' }
 ];
 
 @NgModule({

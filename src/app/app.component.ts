@@ -22,6 +22,11 @@ export class AppComponent {
       icon: 'camera'
     },
     {
+      title: 'Analysis',
+      url: '/analysis',
+      icon: 'analytics'
+    },
+    {
       title: 'History',
       url: '/history',
       icon: 'list'
