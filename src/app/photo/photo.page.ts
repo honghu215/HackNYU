@@ -10,7 +10,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import * as firebase from 'firebase';
 
-const nutrientsID = [301, 312, 431, 303, 304, 406, 318, 401, 324, 309];
+const nutrientsID = [208, 203, 318, 401, 324, 323, 309, 204];
 
 @Component({
   selector: 'app-photo',
@@ -61,6 +61,8 @@ export class PhotoPage implements OnInit {
         // nutrientsID.indexOf(nutrient.attr_id);
         return nutrientsID.indexOf(nutrient.attr_id) >= 0;
       }));
+      // tslint:disable-next-line:max-line-length
+      // this.downloadURL = 'https://firebasestorage.googleapis.com/v0/b/njhack-8798c.appspot.com/o/yJ4m1NxVOWbZxwcJI8kgNVAQKFk1%2F2019-2-0-0%3A55%3A31cdv_photo_006.jpg?alt=media&token=42fc0847-615e-48ad-a626-ed0440c4f0d1';
       this.photoService.saveNutrients(queryString, this.downloadURL, this.fullNutrients);
     }, error => {
       this.showAlert('Not Found', error.error.message);
@@ -69,7 +71,7 @@ export class PhotoPage implements OnInit {
   }
 
   async capture(sourceType: number) {
-    // this.getNutrition('1 cheese burger');
+    // this.getNutrition('2 orange');
     // return;
     this.init();
     let cameraOptions: CameraOptions;
