@@ -9,11 +9,10 @@
 
 <ion-content padding>
 
-  <div style="display:flex; flex-direction: column; justify-content: center">
+  <!-- <div style="display:flex; flex-direction: column; justify-content: center">
     <ion-button expand="full" (click)="capture(1)">Ttake a picture</ion-button>
     <ion-button expand="full" (click)="capture(0)">Select a picture</ion-button>
-    <ion-button expand="full" (click)="getNutrition()">Select from browser</ion-button>
-  </div>
+  </div> -->
 
   <ion-card *ngIf="imageLabels.length > 0">
     <img src="{{ imageUrl }}" height="360 px" width="120 px" />
@@ -22,8 +21,6 @@
     </ion-card-header>
 
     <ion-card-content *ngIf="itemString === ''">
-      <!-- <h2 style="text-align:center">{{ itemName }} ?</h2> -->
-      <!-- select label from vision results -->
       <ion-item>
         <ion-label>Label</ion-label>
         <ion-select [(ngModel)]="itemName" placeholder="Select One" required>
@@ -53,7 +50,7 @@
           <ion-col size="6">Protein</ion-col>
           <ion-col size="3">{{ fullNutrients[0][0].value }}</ion-col>
         </ion-row>
-       
+
         <ion-row>
           <ion-col size="6">Calories</ion-col>
           <ion-col size="3">{{ fullNutrients[0][1].value }}</ion-col>
@@ -78,11 +75,18 @@
           <ion-col size="6">Vitamin E</ion-col>
           <ion-col size="3">{{ fullNutrients[0][6].value }}</ion-col>
         </ion-row>
-        
+
       </ion-list>
     </ion-card-content>
   </ion-card>
 
-
-
 </ion-content>
+<ion-fab vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="camera"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-button round (click)="capture(1)"><ion-icon name="camera"></ion-icon>Take A Photo</ion-button>
+    <ion-button round (click)="capture(0)"><ion-icon name="albums"></ion-icon>Select Album</ion-button>
+  </ion-fab-list>
+</ion-fab>

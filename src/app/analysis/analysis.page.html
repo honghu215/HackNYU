@@ -9,50 +9,41 @@
   </ion-toolbar>
   <ion-toolbar no-border-top color="white">
     <ion-segment [(ngModel)]="target" color="primary">
-        <ion-segment-button value="daily">
-            Daily
-        </ion-segment-button>
-        <ion-segment-button value="weekly">
-            Weekly
-        </ion-segment-button>
+      <ion-segment-button value="daily">
+        Daily
+      </ion-segment-button>
+      <ion-segment-button value="weekly">
+        Weekly
+      </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
   <div [ngSwitch]="target" style="display: block;">
-    <div *ngSwitchCase = "'weekly'" >
-      <canvas baseChart width="300" height="350"
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)"></canvas>
+    <div *ngSwitchCase="'weekly'">
+      <canvas baseChart width="300" height="350" [datasets]="lineChartData" [labels]="lineChartLabels"
+        [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
+        (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
     </div>
   </div>
   <div>
     <div [ngSwitch]="target" style="display: block">
-      <div *ngSwitchCase = "'daily'" >
-        <canvas baseChart width="300" height="350"
-              [datasets]="barChartData"
-              [labels]="barChartLabels"
-              [options]="barChartOptions"
-              [legend]="barChartLegend"
-              [chartType]="barChartType"
-              (chartHover)="chartHovered($event)"
-              (chartClick)="chartClicked($event)"></canvas>
+      <div *ngSwitchCase="'daily'">
+        <canvas baseChart width="300" height="350" [datasets]="barChartData" [labels]="barChartLabels"
+          [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
+          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+        <ion-item>
+          <ion-label>Date</ion-label>
+          <ion-select [(ngModel)]="selectedDate" placeholder="Select Date" required (ionChange)="onChange()">
+            <ion-select-option *ngFor="let dayNutrition of allDaysNutrition" value="{{ dayNutrition.date }}">
+              {{ dayNutrition.date }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
       </div>
+
     </div>
   </div>
-  <ion-item>
-    <ion-label>Date</ion-label>
-    <ion-select [(ngModel)]="selectedDate" placeholder="Select Date" required (ionChange)="onChange()">
-      <ion-select-option *ngFor="let dayNutrition of allDaysNutrition" value="{{ dayNutrition.date }}">
-        {{ dayNutrition.date }}
-      </ion-select-option>
-    </ion-select>
-  </ion-item>
+
 </ion-content>
