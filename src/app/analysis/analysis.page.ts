@@ -4,6 +4,13 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+interface DailyDate {
+  date: string;
+  data: number[];
+}
+const standardNutrients = [1000, 100, 100, 20, 50, 70, 3, 5, 50];
 @Component({
   selector: 'app-analysis',
   templateUrl: './analysis.page.html',
@@ -77,55 +84,72 @@ export class AnalysisPage implements OnInit {
     scaleShowVerticalLines: false,
     responsive: true
   };
-  public barChartLabels: string[] = ['Calories', 'Protein', 'Vitamin A', 'Vitamin C', 'Vitamin D', 'Vitamin E', 'Zinc', 'Iron', 'Fat'];
+  public barChartLabels: string[] = ['Protein', 'Calories', 'Zinc', 'Vitamin A', 'Vitamin D', 'Vitamin C', 'Vitamin E'];
   public barChartType = 'bar';
   public barChartLegend = true;
 
   public barChartData: any[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40, 66, 45], label: 'Standard Value' },
-    { data: [28, 48, 40, 19, 86, 27, 90, 77, 80], label: 'Actual Value' }
+    { data: [120, 1400, 3, 1000, 15, 600, 10], label: 'Standard Value' },
+    { data: [], label: 'Actual Value' }
   ];
 
   dbNutrition: AngularFireList<any>;
-  allNutrition = [];
+  allDaysNutrition = [];
+  todayData: DailyDate;
+  selectedDate: string;
+
   constructor(public navCtrl: NavController,
-              private db: AngularFireDatabase,
-              private auth: AuthService) {
+    private db: AngularFireDatabase,
+    private auth: AuthService) {
     this.target = 'daily';
+
+    for (let i = 0; i < this.allDaysNutrition.length; i++) {
+      if (this.allDaysNutrition[i].date === this.selectedDate) {
+        this.barChartData[1].data = this.allDaysNutrition[i].data;
+      }
+    }
   }
 
   ngOnInit() {
     const userId = this.auth.getUserId();
     const currDateTime = `${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}`;
-    console.log(currDateTime);
     this.dbNutrition = this.db.list(userId);
-    // const ref = firebase.database().ref(userId);
-    // ref.orderByChild('updatedAt').equalTo(currDateTime).once('value', snapshot => {
-    //   console.log(`Get today's item: ${JSON.stringify(snapshot)}`);
-    // });
-    // this.getAllData().subscribe(res => {
-    //   console.log(JSON.stringify(res));
-    // }, error => {
-    //   console.log(error);
-    // });
-    this.dbNutrition.valueChanges().subscribe( res => {
-      // console.log(JSON.stringify(res));
-      // res.forEach( item => {
-      //   if (item != null || res !== undefined) {
-      //     console.log(`All past days' nutritions: ${JSON.stringify(Object.keys(res))}`);
-      //   }
-      // });
+    this.selectedDate = currDateTime;
+    this.dbNutrition.valueChanges().subscribe(res => {
       for (let i = 0; i < res.length; i++) {
         const currNutrients = res[i];
         const key = Object.keys(currNutrients)[0];
-        console.log(res[i], key);
-        console.log(currNutrients[key]);
-        // console.log(`All past days' nutritions: ${Object.keys(res[i])}`);
+        const nutritionData = [currNutrients[key][0].value,
+        currNutrients[key][1].value,
+        currNutrients[key][2].value,
+        currNutrients[key][3].value,
+        currNutrients[key][4].value,
+        currNutrients[key][5].value,
+        currNutrients[key][6].value];
+        this.todayData = {
+          date: currNutrients[key]['updatedAt'],
+          data: nutritionData
+        };
+        console.log(this.todayData);
+        this.allDaysNutrition.push(this.todayData);
+        if (currNutrients[key]['updatedAt'] === this.selectedDate) {
+          this.barChartData[1].data = nutritionData;
+        }
       }
     });
-
   }
 
+  onChange() {
+    let selectedDateData;
+    for (let i = 0; i < this.allDaysNutrition.length; i++) {
+      if (this.allDaysNutrition[i].date === this.selectedDate) {
+        selectedDateData = this.allDaysNutrition[i];
+      }
+    }
+    this.barChartData[1].data = selectedDateData.data;
+    this.target = 'weekly';
+    this.target = 'daily';
+  }
   // events
   public chartClicked(e: any): void {
     console.log(e);
@@ -133,19 +157,6 @@ export class AnalysisPage implements OnInit {
 
   public chartHovered(e: any): void {
     console.log(e);
-  }
-
-  getAllData() {
-    const userId = this.auth.getUserId();
-    return this.db.list(userId).snapshotChanges().pipe(
-      map(items => {
-        return items.map(item => {
-          const data = item.payload.val();
-          const key = item.payload.key;
-          return { key, data };
-        });
-      })
-    );
   }
 
 }

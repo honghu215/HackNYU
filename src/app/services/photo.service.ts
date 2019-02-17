@@ -89,8 +89,9 @@ export class PhotoService {
   async saveNutrients(queryString: string, url: string, fullNutrients) {
     const userId = this.auth.getUserId();
     const currDateTime = new Date();
+    const shortDate = `${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate() - 1}`;
     console.log(currDateTime);
-    const folderName = currDateTime.getFullYear() + '' + (currDateTime.getMonth() + 1) + '' + (currDateTime.getDate());
+    const folderName = shortDate;
     this.dbNutrients = this.db.list(`${userId}/${folderName}`);
     this.dbNutrients.valueChanges().subscribe(res => {
       this.dailyNutrients = res[0];
@@ -116,7 +117,7 @@ export class PhotoService {
     this.dbNutrients.remove().then( _ => console.log('DB emptied'));
     this.dbNutrients.push({
       ...newDaily,
-      updatedAt: `${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}`
+      updatedAt: shortDate
     });
   }
 }
