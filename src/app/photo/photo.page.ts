@@ -1,5 +1,5 @@
 import { ItemModalPage } from './item-modal/item-modal.page';
-import { PhotoService } from './../services/photo.service';
+import { PhotoService, NutrientItem } from './../services/photo.service';
 import { GoogleVisionService } from './../services/google-vision.service';
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,6 +9,8 @@ import { File } from '@ionic-native/file/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import * as firebase from 'firebase';
+
+const nutrientsID = [301, 312, 431, 303, 304, 406, 318, 401, 324, 309];
 
 @Component({
   selector: 'app-photo',
@@ -21,9 +23,11 @@ export class PhotoPage implements OnInit {
   dbItems: AngularFireList<any>;
   imageLabels = [];
   imageUrl = null;
+  downloadURL = null;
   queryString: string;
   itemName: string;
-  nutritionResult: any;
+  basicNutrients: any;
+  fullNutrients = [];
   itemString = '';
 
   constructor(
@@ -39,19 +43,34 @@ export class PhotoPage implements OnInit {
     private loadingCtrl: LoadingController
   ) {
     this.userId = this.auth.getUserId();
-    this.dbItems = db.list(this.userId.split('@')[0]);
+    this.dbItems = db.list(this.userId);
     // this.dbItems.valueChanges().subscribe( items => {
-
     // });
   }
-
   ngOnInit() {
+    this.init();
     this.auth.authChange.subscribe(logStatus => {
       this.isLoggedin = logStatus;
     });
   }
 
+  getNutrition(queryString: string) {
+    this.photoService.calculateNutrition(queryString).subscribe(response => {
+      this.basicNutrients = response.foods[0];
+      this.fullNutrients.push(response.foods[0].full_nutrients.filter(nutrient => {
+        // nutrientsID.indexOf(nutrient.attr_id);
+        return nutrientsID.indexOf(nutrient.attr_id) >= 0;
+      }));
+      this.photoService.saveNutrients(queryString, this.downloadURL, this.fullNutrients);
+    }, error => {
+      this.showAlert('Not Found', error.error.message);
+      this.init();
+    });
+  }
+
   async capture(sourceType: number) {
+    // this.getNutrition('1 cheese burger');
+    // return;
     this.init();
     let cameraOptions: CameraOptions;
     if (sourceType === 0) {
@@ -87,19 +106,32 @@ export class PhotoPage implements OnInit {
     }
   }
 
-  async visionAnalyze(imgUrl) {
-    const analyzing = await this.loadingCtrl.create({
-      message: 'Analyzing...'
-    });
-    await analyzing.present();
-    this.vision.getLabels(imgUrl).subscribe(result => {
-      this.imageLabels = (result.responses[0].labelAnnotations);
-      analyzing.dismiss();
-      this.saveResults(imgUrl, result.responses);
-    }, error => {
-      this.showAlert('Error', error);
+  async makeFileIntoBlob(imgPath) {
+    return new Promise((resolve, reject) => {
+      let fileName = '';
+      this.file
+        .resolveLocalFilesystemUrl(imgPath)
+        .then(fileEntry => {
+          const { name, nativeURL } = fileEntry;
+          const path = nativeURL.substring(0, nativeURL.lastIndexOf('/'));
+          fileName = name;
+          // we are provided the name, so now read the file into a buffer
+          return this.file.readAsArrayBuffer(path, name);
+        })
+        .then(buffer => {
+          // get the buffer and make a blob to be saved
+          const imgBlob = new Blob([buffer], {
+            type: 'image/jpeg'
+          });
+          resolve({
+            fileName,
+            imgBlob
+          });
+        })
+        .catch(e => reject(e));
     });
   }
+
   async upload(imgBlobInfo) {
     const loading = await this.loadingCtrl.create({
       message: 'Uploading...'
@@ -124,6 +156,7 @@ export class PhotoPage implements OnInit {
         () => {
           uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
             loading.dismiss();
+            this.downloadURL = downloadURL;
             this.visionAnalyze(downloadURL);
           });
         }
@@ -131,18 +164,19 @@ export class PhotoPage implements OnInit {
     });
   }
 
-  async saveResults(imageUrl: string, results) {
-    this.dbItems.push({
-      imageUrl: imageUrl,
-      results: results
-    })
-      .then(_ => { })
-      .catch(error => {
-        this.showAlert('Error', error);
-      });
-    // this.getItemName();
+  async visionAnalyze(imgUrl) {
+    const analyzing = await this.loadingCtrl.create({
+      message: 'Analyzing...'
+    });
+    await analyzing.present();
+    this.vision.getLabels(imgUrl).subscribe(result => {
+      this.imageLabels = (result.responses[0].labelAnnotations);
+      analyzing.dismiss();
+      // this.saveResults(imgUrl, result.responses);
+    }, error => {
+      this.showAlert('Error', error);
+    });
   }
-
 
   async showAlert(header, message) {
     const alert = await this.alertCtrl.create({
@@ -153,14 +187,7 @@ export class PhotoPage implements OnInit {
     alert.present();
   }
 
-  getNutrition(queryString: string) {
-    this.photoService.calculateNutrition(queryString).subscribe(response => {
-      this.nutritionResult = response.foods[0];
-    }, error => {
-      this.showAlert('Not Found', error.error.message);
-      this.init();
-    });
-  }
+  
 
   close() {
     this.init();
@@ -186,35 +213,10 @@ export class PhotoPage implements OnInit {
 
   init() {
     this.itemName = '';
-    this.nutritionResult = {};
+    this.basicNutrients = {};
     this.imageLabels = [];
     this.itemString = '';
-  }
-
-  async makeFileIntoBlob(imgPath) {
-    return new Promise((resolve, reject) => {
-      let fileName = '';
-      this.file
-        .resolveLocalFilesystemUrl(imgPath)
-        .then(fileEntry => {
-          const { name, nativeURL } = fileEntry;
-          const path = nativeURL.substring(0, nativeURL.lastIndexOf('/'));
-          fileName = name;
-          // we are provided the name, so now read the file into a buffer
-          return this.file.readAsArrayBuffer(path, name);
-        })
-        .then(buffer => {
-          // get the buffer and make a blob to be saved
-          const imgBlob = new Blob([buffer], {
-            type: 'image/jpeg'
-          });
-          resolve({
-            fileName,
-            imgBlob
-          });
-        })
-        .catch(e => reject(e));
-    });
+    this.fullNutrients = [];
   }
 
 }

@@ -7,7 +7,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Facebook } from '@ionic-native/facebook/ngx';
 import * as firebase from 'firebase/app';
 
-const USERID_KEY = 'UserEmail';
+const USERID_KEY = 'UserID';
 export interface Image {
   id?: string;
   url: string;
@@ -63,7 +63,7 @@ export class AuthService {
           this.alertMsg('Login failed', '', 'Email address is not verified, go check your mainbox', ['OK']);
         } else {
           this.userId = result.user.uid;
-          this.saveUserId(result.user.email);
+          this.saveUserId(result.user.uid);
           this.authSuccessfully();
         }
       })
@@ -80,7 +80,7 @@ export class AuthService {
 
         firebase.auth().signInAndRetrieveDataWithCredential(facebookCredential)
           .then(success => {
-            this.saveUserId(success.user.email);
+            this.saveUserId(success.user.uid);
             this.authSuccessfully();
           })
           .catch(Error => {
@@ -95,6 +95,7 @@ export class AuthService {
   logout() {
     this.authChange.next(false);
     this.isAuthenticated = false;
+    window.localStorage.clear();
     window.localStorage.removeItem(USERID_KEY);
     this.router.navigate(['/home']);
   }
@@ -120,11 +121,13 @@ export class AuthService {
   }
 
   saveUserId(id: string) {
+    
     window.localStorage.removeItem(USERID_KEY);
     window.localStorage.setItem(USERID_KEY, id);
   }
 
   getUserId(): string {
+    console.log(window.localStorage.getItem(USERID_KEY));
     return window.localStorage.getItem(USERID_KEY);
   }
 }

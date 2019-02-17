@@ -47,19 +47,47 @@
       </ion-row>
     </ion-card-content>
 
-    <ion-card-content *ngIf="nutritionResult != null">
+    <ion-card-content *ngIf="fullNutrients.length > 0">
       <ion-list>
         <ion-row>
-          <ion-col size="6">Saturated Fat</ion-col>
-          <ion-col size="3">{{ nutritionResult.nf_saturated_fat }}</ion-col>
+          <ion-col size="6">Calcium</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][0].value }}</ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size="6">Suggars</ion-col>
-          <ion-col size="3">{{ nutritionResult.nf_sugars }}</ion-col>
+          <ion-col size="6">Copper</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][1].value }}</ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size="6">Protein</ion-col>
-          <ion-col size="3">{{ nutritionResult.nf_protein }}</ion-col>
+          <ion-col size="6">Folic Acid</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][2].value }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Iron</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][3].value }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Magnesium</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][4].value }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Niacin</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][5].value }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Vitamin A</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][6].value }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Vitamin C</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][7].value }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Vitamin D</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][8].value }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">Zinc</ion-col>
+          <ion-col size="3">{{ fullNutrients[0][9].value }}</ion-col>
         </ion-row>
       </ion-list>
     </ion-card-content>

@@ -22,7 +22,9 @@ const routes: Routes = [
   { path: 'item-modal', loadChildren: './photo/item-modal/item-modal.module#ItemModalPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
-  { path: 'reward', loadChildren: './reward/reward.module#RewardPageModule' }
+  { path: 'reward', loadChildren: './reward/reward.module#RewardPageModule' },
+  { path: 'history-detail', loadChildren: './history/history-detail/history-detail.module#HistoryDetailPageModule' },
+  { path: 'history-detail/:id', loadChildren: './history/history-detail/history-detail.module#HistoryDetailPageModule' }
 ];
 
 @NgModule({

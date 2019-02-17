@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -16,18 +17,34 @@ export class AppComponent {
       icon: 'home'
     },
     {
-      title: 'List',
-      url: '/list',
+      title: 'Take a Photo',
+      url: '/photo',
+      icon: 'camera'
+    },
+    {
+      title: 'History',
+      url: '/history',
       icon: 'list'
     }
   ];
 
+  isLoggedin = false;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private authService: AuthService,
+    private menuCtrl: MenuController
   ) {
     this.initializeApp();
+    this.authService.authChange.subscribe( authStatus => {
+      this.isLoggedin = authStatus;
+    });
+  }
+
+  onLogout() {
+    this.authService.logout();
+    this.menuCtrl.toggle();
   }
 
   initializeApp() {
